@@ -1,0 +1,229 @@
+<html>
+  <head>
+    <title>Task 10</title>
+  </head>
+
+  <style media="screen">
+  html,body {
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none
+}
+
+main {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+}
+
+.scene {
+  display: flex;
+  position: relative;
+  top: 0;
+  height: inherit;
+  background: url("images/scene.jpg") no-repeat;
+  background-size: auto 100%;
+  background-position: center;
+  z-index: 5;
+  transition: top 0.2s ease;
+}
+
+.scene:hover {
+  top: -5%;
+}
+
+.left-side {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 5;
+  width: calc(50% - 43.6vw);
+  height: 100vh;
+}
+
+.right-side {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 5;
+  width: calc(50% - 43.6vw);
+  height: 100vh;
+}
+
+.lamp {
+  position: fixed;
+  margin: auto;
+  left: 0;
+}
+
+#lamp {
+  top: 5vh;
+  right: 0;
+  width: 11vh;
+  z-index: 4;
+}
+
+#pull {
+  top: 9vh;
+  right: 6vh;
+  width: 1.2vh;
+  z-index: 0;
+  transition: top 0.2s cubic-bezier(0, .5, .5, 1);
+}
+
+.attention {
+  position: fixed;
+  bottom: 8vh;
+  transition: opacity 0.2s linear;
+}
+
+#light {
+  position: fixed;
+  pointer-events: none;
+  top: -60vh;
+  margin: auto;
+  left: 50%;
+  opacity: 0;
+  border-bottom: 80vh solid yellow;
+  border-left: 40vh solid transparent;
+  border-right: 40vh solid transparent;
+  height: 0;
+  width: 10vh;
+  transform: translate(-50%, 0);
+  z-index: 3;
+  bottom: -60vh;
+  transition: opacity 0.2s linear;
+}
+
+#wizard {
+  opacity: 0;
+  width: 50vh;
+  left: calc(50% - 36vh);
+  z-index: 0;
+}
+
+#hat {
+  opacity: 0;
+  left: calc(50% + 7vh);
+  bottom: 15vh;
+  width: 20vh;
+  transform: rotate(180deg);
+  z-index: 2;
+}
+
+.focus {
+  opacity: 0;
+  left: calc(50% + 10vh);
+  bottom: 15vh;
+  width: 12vh;
+  z-index: 1;
+}
+
+#crol {
+  transition: opacity 0.2s linear,
+      bottom 0.5s cubic-bezier(0, .5, .5, 1),
+      visibility 0.2s linear;
+  visibility: hidden;
+}
+
+#bird {
+  transition: opacity 0.2s ease,
+      bottom 0.5s cubic-bezier(0, .5, .5, 1),
+      visibility 0.2s ease;
+  bottom: 35vh;
+}
+  </style>
+
+  <body>
+    <main>
+      <div class="scene"></div>
+      <div class="right-side"></div>
+      <div class="left-side"></div>
+
+      <image id="lamp" class="lamp" src="./images/lamp.png" alt="Lamp"></image>
+      <image id="pull" class="lamp" src="./images/pull.png" alt="Pull"></image>
+
+      <div id="light"></div>
+      <image
+        id="wizard"
+        class="attention"
+        src="./images/wizard.jpg"
+        alt="Wizard"
+      ></image>
+      <image
+        id="hat"
+        class="attention"
+        src="./images/hat.png"
+        alt="Hat"
+      ></image>
+      <image
+        id="crol"
+        class="attention focus"
+        src="./images/rabbit.png"
+        alt="Crol"
+      ></image>
+      <image
+        id="bird"
+        class="attention focus"
+        src="./images/bird.png"
+        alt="Bird"
+      ></image>
+    </main>
+
+    <script>
+
+      const scene = document.querySelector(".scene");
+      const lamp = document.querySelectorAll(".lamp");
+      const attention = document.querySelectorAll(".attention");
+      const light = document.querySelector("#light");
+      const focus = document.querySelectorAll(".focus");
+
+      scene.onclick = () => {
+        scene.style.transition = "top 1s cubic-bezier(0, .5, .5, 1)";
+        scene.style.top = "-100%";
+        setTimeout(() => (scene.style.display = "none"), 1000);
+      };
+
+      lamp[0].addEventListener("mousedown", () => {
+        lamp[1].style.top = "11vh";
+      });
+
+      lamp[0].addEventListener("mouseup", () => {
+        lamp[1].style.top = "9vh";
+        turnLight();
+      });
+
+      turnLight = () => {
+        if (light.style.opacity == 0) {
+          light.style.opacity = 0.5;
+          attention.forEach((item) => {
+            item.style.opacity = 1;
+          });
+        } else {
+          light.style.opacity = 0;
+          attention.forEach((item) => {
+            item.style.opacity = 0;
+          });
+        }
+      };
+
+      focus.forEach((item) => {
+        item.onclick = () => {
+          if (focus[0].style.bottom == "35vh") {
+            focus[0].style.bottom = "15vh";
+            focus[0].style.visibility = "hidden";
+            focus[1].style.visibility = "visible";
+            focus[1].style.bottom = "35vh";
+          } else {
+            focus[1].style.bottom = "15vh";
+            focus[1].style.visibility = "hidden";
+            focus[0].style.visibility = "visible";
+            focus[0].style.bottom = "35vh";
+          }
+        };
+      });
+
+    </script>
+  </body>
+</html>
